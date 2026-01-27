@@ -1,38 +1,143 @@
-.App {
-  text-align: center;
+/* ===== GLOBAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* ===== BACKGROUND ===== */
+body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #333;
+}
+
+/* ===== PAGE CONTAINER ===== */
+.page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== HEADINGS ===== */
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #4a3aff;
+  font-weight: 700;
+}
+
+/* ===== BUTTONS ===== */
+button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4a3aff, #7b5cff);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(74, 58, 255, 0.4);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== INPUTS ===== */
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4a3aff;
+  box-shadow: 0 0 6px rgba(74, 58, 255, 0.4);
+}
+
+/* ===== FORMS ===== */
+form {
+  max-width: 450px;
+  margin: auto;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  background: linear-gradient(135deg, #4a3aff, #7b5cff);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+th, td {
+  padding: 14px;
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+tbody tr {
+  transition: background 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+  background: #f5f6ff;
+}
+
+tbody tr:hover {
+  background: #e8ebff;
+}
+
+/* ===== STATUS COLORS ===== */
+.status-APPROVED {
+  color: green;
+  font-weight: bold;
+}
+
+.status-PENDING {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-CANCELLED {
+  color: red;
+  font-weight: bold;
+}
+
+/* ===== DASHBOARD BUTTONS ===== */
+.dashboard-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* ===== SMALL TEXT ===== */
+p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+}
+/* ===== NAME INPUT (MY BOOKINGS PAGE) ===== */
+.name-input {
+  width: 260px;        /* perfect for full name */
+  max-width: 100%;
+  display: inline-block;
 }
