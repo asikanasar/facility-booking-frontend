@@ -7,17 +7,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-sonar:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
@@ -29,9 +27,10 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: asikanasar_facility-booking-frontend
-          SONAR_ORGANIZATION: asikanasar
+        with:
+          args: >
+            -Dsonar.projectKey=asikanasar_facility-booking-frontend
+            -Dsonar.organization=asikanasar
+            -Dsonar.sources=src
