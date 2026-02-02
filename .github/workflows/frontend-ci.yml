@@ -23,3 +23,13 @@ jobs:
 
       - name: Build frontend
         run: npm run build
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=asikanasar_facility-booking-frontend
+            -Dsonar.organization=asikanasar
+            -Dsonar.sources=src
