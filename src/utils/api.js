@@ -1,31 +1,38 @@
-// API Configuration
+// src/api.js
+
+// Base URL (DO NOT add /api in Vercel env variable)
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL + "/api";
 
-// Helper function
+/**
+ * Common API helper
+ * Usage:
+ *   apiCall("/bookings")
+ *   apiCall("/bookings/1/approve", { method: "PUT" })
+ */
 export const apiCall = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
-
-  const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    ...options.headers
-  };
-
-  const response = await fetch(url, {
-    ...options,
-    headers
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      ...(options.headers || {})
+    },
+    ...options
   });
 
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`HTTP ${response.status}: ${text || response.statusText}`);
+    const message = await response.text();
+    throw new Error(`HTTP ${response.status}: ${message}`);
   }
 
-  if (response.headers.get("content-type")?.includes("application/json")) {
+  // Handle empty responses safely
+  if (response.status === 204) return null;
+
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
     return response.json();
   }
 
-  return response;
+  return null;
 };
 
 export default API_BASE_URL;
