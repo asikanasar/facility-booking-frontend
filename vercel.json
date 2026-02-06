@@ -38,7 +38,7 @@
   ],
   "rewrites": [
     {
-      "source": "/api/bookings/:path*",
+      "source":"/api/:path*",
       "destination": "https://facility-booking-backend.onrender.com//api/:path*"
     }
   ]
