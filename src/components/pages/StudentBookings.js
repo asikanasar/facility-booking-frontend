@@ -1,31 +1,30 @@
 import { useState } from "react";
+import { apiCall } from "../../utils/api";
 
 function StudentBookings() {
   const [userName, setUserName] = useState("");
   const [bookings, setBookings] = useState([]);
 
-  const fetchBookings = () => {
+  const fetchBookings = async () => {
     if (!userName.trim()) {
-      alert("Please enter your name first");
+      alert("Please enter your name");
       return;
     }
-    fetch(`https://facility-booking-backend.onrender.com/api/bookings/user/${userName}`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP Error: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => setBookings(data))
-      .catch((error) => {
-        console.error("Error fetching bookings:", error);
-        alert(`Error: ${error.message}`);
-      });
+    try {
+      const data = await apiCall(`/bookings/user/${userName}`);
+      setBookings(data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const deleteBooking = async (id) => {
+    try {
+      await apiCall(`/bookings/${id}`, { method: "DELETE" });
+      setBookings(bookings.filter(b => b.id !== id));
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -33,15 +32,13 @@ function StudentBookings() {
       <h2>My Bookings</h2>
 
       <input
-        className="name-input"
         placeholder="Enter your full name"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       />
-
-     <button onClick={fetchBookings} style={{ marginLeft: "10px" }}>
-      View
-     </button>
+      <button onClick={fetchBookings} style={{ marginLeft: "10px" }}>
+        View
+      </button>
 
       <br /><br />
 
@@ -55,55 +52,24 @@ function StudentBookings() {
               <th>Date</th>
               <th>Time</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-  {bookings.map((b) => (
-    <tr key={b.id}>
-      <td>{b.facilityName}</td>
-      <td>{b.bookingDate}</td>
-      <td>{b.startTime} - {b.endTime}</td>
-      <td className={`status-${b.status}`}>{b.status}</td>
-      <td>
-        <button
-          onClick={() => {
-            fetch(`https://facility-booking-backend.onrender.com/api/bookings/${b.id}`, {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
-              .then(async (res) => {
-                if (!res.ok) {
-                  const text = await res.text().catch(() => null);
-                  throw new Error(`HTTP Error: ${res.status} - ${text || res.statusText}`);
-                }
-
-                // Some backends return plain text (e.g. "Booking deleted") instead of JSON.
-                // Safely handle both JSON and text responses to avoid "Unexpected token" errors.
-                const contentType = res.headers.get("content-type") || "";
-                if (contentType.includes("application/json")) {
-                  await res.json();
-                } else {
-                  await res.text();
-                }
-
-                setBookings(bookings.filter(x => x.id !== b.id));
-              })
-              .catch((error) => {
-                console.error("Error deleting booking:", error);
-                alert(`Error: ${error.message}`);
-              });
-          }}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+            {bookings.map((b) => (
+              <tr key={b.id}>
+                <td>{b.facilityName}</td>
+                <td>{b.bookingDate}</td>
+                <td>{b.startTime} - {b.endTime}</td>
+                <td>{b.status}</td>
+                <td>
+                  <button onClick={() => deleteBooking(b.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       )}
     </div>
