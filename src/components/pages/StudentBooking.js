@@ -23,7 +23,7 @@ function StudentBooking() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:8080/api/bookings", {
+    fetch("https://facility-booking-backend.onrender.com/api/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
