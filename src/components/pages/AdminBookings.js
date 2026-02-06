@@ -4,7 +4,7 @@ function AdminBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = () => {
-    fetch("http://localhost:8080/api/bookings")
+    fetch("https://facility-booking-backend.onrender.com")
       .then((res) => res.json())
       .then((data) => setBookings(data));
   };
@@ -14,13 +14,13 @@ function AdminBookings() {
   }, []);
 
   const approveBooking = (id) => {
-    fetch(`http://localhost:8080/api/bookings/${id}/approve`, {
+    fetch(`https://facility-booking-backend.onrender.com/${id}/approve`, {
       method: "PUT"
     }).then(() => fetchBookings());
   };
 
   const cancelBooking = (id) => {
-    fetch(`http://localhost:8080/api/bookings/${id}/cancel`, {
+    fetch(`https://facility-booking-backend.onrender.com/${id}/cancel`, {
       method: "PUT"
     }).then(() => fetchBookings());
   };
