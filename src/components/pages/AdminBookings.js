@@ -1,10 +1,12 @@
+import { apiCall } from "../../utils/api";
+
 import { useEffect, useState } from "react";
 
 function AdminBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = () => {
-    fetch("https://facility-booking-backend.onrender.com/api/bookings", {
+    fetch("https://facility-booking-backend.onrender.com", {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -28,11 +30,9 @@ function AdminBookings() {
   }, []);
 
   const approveBooking = (id) => {
-    fetch(`https://facility-booking-backend.onrender.com/api/bookings/${id}/approve`, {
+    fetch(`/bookings/${id}/approve`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
+    
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -55,11 +55,9 @@ function AdminBookings() {
   };
 
   const cancelBooking = (id) => {
-    fetch(`https://facility-booking-backend.onrender.com/api/bookings/${id}/cancel`, {
+    fetch(`/bookings/${id}/cancel`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      }
+      
     })
       .then(async (res) => {
         if (!res.ok) {
