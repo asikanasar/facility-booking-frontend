@@ -5,7 +5,7 @@ function StudentBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = () => {
-    fetch(`http://localhost:8080/api/bookings/user/${userName}`)
+    fetch(`https://facility-booking-backend.onrender.com/api/bookings/user/${userName}`)
       .then((res) => res.json())
       .then((data) => setBookings(data));
   };
@@ -50,7 +50,7 @@ function StudentBookings() {
       <td>
         <button
           onClick={() => {
-            fetch(`http://localhost:8080/api/bookings/${b.id}`, {
+            fetch(`https://facility-booking-backend.onrender.com/api/bookings/${b.id}`, {
               method: "DELETE"
             }).then(() => {
               setBookings(bookings.filter(x => x.id !== b.id));
