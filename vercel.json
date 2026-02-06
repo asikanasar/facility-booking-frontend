@@ -38,8 +38,8 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!.*\\.).*)",
-      "destination": "/index.html"
+      "source": "/api/bookings/:path*",
+      "destination": "https://facility-booking-backend.onrender.com//api/:path*"
     }
   ]
 }
