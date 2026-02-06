@@ -5,9 +5,27 @@ function StudentBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = () => {
-    fetch(`https://facility-booking-backend.onrender.com/api/bookings/user/${userName}`)
-      .then((res) => res.json())
-      .then((data) => setBookings(data));
+    if (!userName.trim()) {
+      alert("Please enter your name first");
+      return;
+    }
+    fetch(`https://facility-booking-backend.onrender.com/api/bookings/user/${userName}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => setBookings(data))
+      .catch((error) => {
+        console.error("Error fetching bookings:", error);
+        alert(`Error: ${error.message}`);
+      });
   };
 
   return (
@@ -51,10 +69,22 @@ function StudentBookings() {
         <button
           onClick={() => {
             fetch(`https://facility-booking-backend.onrender.com/api/bookings/${b.id}`, {
-              method: "DELETE"
-            }).then(() => {
-              setBookings(bookings.filter(x => x.id !== b.id));
-            });
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+                return res.json();
+              })
+              .then(() => {
+                setBookings(bookings.filter(x => x.id !== b.id));
+              })
+              .catch((error) => {
+                console.error("Error deleting booking:", error);
+                alert(`Error: ${error.message}`);
+              });
           }}
         >
           Delete

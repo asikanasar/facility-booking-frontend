@@ -26,17 +26,27 @@ function StudentBooking() {
     fetch("https://facility-booking-backend.onrender.com/api/bookings", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept": "application/json"
       },
       body: JSON.stringify({
         ...booking,
         userRole: "STUDENT"
       })
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error: ${res.status} - ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(() => {
         alert("Booking created successfully!");
         navigate("/student/bookings");
+      })
+      .catch((error) => {
+        console.error("Error creating booking:", error);
+        alert(`Error: ${error.message}`);
       });
   };
 

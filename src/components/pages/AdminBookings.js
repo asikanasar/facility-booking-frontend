@@ -4,9 +4,23 @@ function AdminBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = () => {
-    fetch("https://facility-booking-backend.onrender.com/api/bookings")
-      .then((res) => res.json())
-      .then((data) => setBookings(data));
+    fetch("https://facility-booking-backend.onrender.com/api/bookings", {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => setBookings(data))
+      .catch((error) => {
+        console.error("Error fetching bookings:", error);
+        alert(`Error fetching bookings: ${error.message}`);
+      });
   };
 
   useEffect(() => {
@@ -15,14 +29,38 @@ function AdminBookings() {
 
   const approveBooking = (id) => {
     fetch(`https://facility-booking-backend.onrender.com/api/bookings/${id}/approve`, {
-      method: "PUT"
-    }).then(() => fetchBookings());
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+        return res.json();
+      })
+      .then(() => fetchBookings())
+      .catch((error) => {
+        console.error("Error approving booking:", error);
+        alert(`Error: ${error.message}`);
+      });
   };
 
   const cancelBooking = (id) => {
     fetch(`https://facility-booking-backend.onrender.com/api/bookings/${id}/cancel`, {
-      method: "PUT"
-    }).then(() => fetchBookings());
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+        return res.json();
+      })
+      .then(() => fetchBookings())
+      .catch((error) => {
+        console.error("Error cancelling booking:", error);
+        alert(`Error: ${error.message}`);
+      });
   };
 
   return (
