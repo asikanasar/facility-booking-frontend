@@ -79,18 +79,6 @@ function AdminBookings() {
         console.error("Error cancelling booking:", error);
         alert(`Error: ${error.message}`);
       });
-        "Content-Type": "application/json"
-      }
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-        return res.json();
-      })
-      .then(() => fetchBookings())
-      .catch((error) => {
-        console.error("Error cancelling booking:", error);
-        alert(`Error: ${error.message}`);
-      });
   };
 
   return (
