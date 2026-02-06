@@ -74,11 +74,21 @@ function StudentBookings() {
                 "Content-Type": "application/json"
               }
             })
-              .then((res) => {
-                if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-                return res.json();
-              })
-              .then(() => {
+              .then(async (res) => {
+                if (!res.ok) {
+                  const text = await res.text().catch(() => null);
+                  throw new Error(`HTTP Error: ${res.status} - ${text || res.statusText}`);
+                }
+
+                // Some backends return plain text (e.g. "Booking deleted") instead of JSON.
+                // Safely handle both JSON and text responses to avoid "Unexpected token" errors.
+                const contentType = res.headers.get("content-type") || "";
+                if (contentType.includes("application/json")) {
+                  await res.json();
+                } else {
+                  await res.text();
+                }
+
                 setBookings(bookings.filter(x => x.id !== b.id));
               })
               .catch((error) => {

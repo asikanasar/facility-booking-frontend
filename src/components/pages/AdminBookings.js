@@ -34,9 +34,18 @@ function AdminBookings() {
         "Content-Type": "application/json"
       }
     })
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-        return res.json();
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text().catch(() => null);
+          throw new Error(`HTTP Error: ${res.status} - ${text || res.statusText}`);
+        }
+
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          await res.json();
+        } else {
+          await res.text();
+        }
       })
       .then(() => fetchBookings())
       .catch((error) => {
@@ -49,6 +58,27 @@ function AdminBookings() {
     fetch(`https://facility-booking-backend.onrender.com/api/bookings/${id}/cancel`, {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text().catch(() => null);
+          throw new Error(`HTTP Error: ${res.status} - ${text || res.statusText}`);
+        }
+
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          await res.json();
+        } else {
+          await res.text();
+        }
+      })
+      .then(() => fetchBookings())
+      .catch((error) => {
+        console.error("Error cancelling booking:", error);
+        alert(`Error: ${error.message}`);
+      });
         "Content-Type": "application/json"
       }
     })
