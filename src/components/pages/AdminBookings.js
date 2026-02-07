@@ -3,19 +3,25 @@ import { apiCall } from "../../utils/api";
 
 function AdminBookings() {
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // Fetch all bookings
   const fetchBookings = async () => {
-  try {
-    const data = await apiCall("/bookings");
-    setBookings(data || []); // <-- default to empty array if data is null
-  } catch (error) {
-    console.error("Error fetching bookings:", error);
-    alert(`Error fetching bookings: ${error.message || "Unknown error"}`);
-    setBookings([]); // <-- ensure bookings is always an array
-  }
-};
+    setLoading(true);
+    setError(""); // reset error
 
+    try {
+      const data = await apiCall("/bookings");
+      setBookings(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error fetching bookings:", err);
+      setError(err.message || "Unknown error while fetching bookings");
+      setBookings([]); // ensure array
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchBookings();
@@ -24,26 +30,22 @@ function AdminBookings() {
   // Approve booking
   const approveBooking = async (id) => {
     try {
-      await apiCall(`/bookings/${id}/approve`, {
-        method: "PUT",
-      });
+      await apiCall(`/bookings/${id}/approve`, { method: "PUT" });
       fetchBookings();
-    } catch (error) {
-      console.error("Error approving booking:", error);
-      alert(`Error: ${error.message}`);
+    } catch (err) {
+      console.error("Error approving booking:", err);
+      setError(err.message || "Unknown error while approving booking");
     }
   };
 
   // Cancel booking
   const cancelBooking = async (id) => {
     try {
-      await apiCall(`/bookings/${id}/cancel`, {
-        method: "PUT",
-      });
+      await apiCall(`/bookings/${id}/cancel`, { method: "PUT" });
       fetchBookings();
-    } catch (error) {
-      console.error("Error cancelling booking:", error);
-      alert(`Error: ${error.message}`);
+    } catch (err) {
+      console.error("Error cancelling booking:", err);
+      setError(err.message || "Unknown error while cancelling booking");
     }
   };
 
@@ -51,7 +53,11 @@ function AdminBookings() {
     <div style={{ padding: "20px" }}>
       <h2>Admin Booking Dashboard</h2>
 
-      {bookings.length === 0 ? (
+      {loading ? (
+        <p>Loading bookings...</p>
+      ) : error ? (
+        <p style={{ color: "red" }}>Error: {error}</p>
+      ) : bookings.length === 0 ? (
         <p>No bookings available</p>
       ) : (
         <table border="1" cellPadding="8">
@@ -66,7 +72,6 @@ function AdminBookings() {
               <th>Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {bookings.map((b) => (
               <tr key={b.id}>
@@ -85,7 +90,6 @@ function AdminBookings() {
                   >
                     Approve
                   </button>
-
                   <button
                     onClick={() => cancelBooking(b.id)}
                     style={{ marginLeft: "8px" }}
