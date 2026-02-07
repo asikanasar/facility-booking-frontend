@@ -36,10 +36,16 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source":"/api/:path*",
-      "destination": "https://facility-booking-backend.onrender.com//api/:path*"
-    }
-  ]
+ "rewrites": [
+  // Allow static files to load publicly
+  { "source": "/manifest.json", "destination": "/manifest.json" },
+  { "source": "/favicon.ico", "destination": "/favicon.ico" },
+
+  // API proxy
+  { "source": "/api/:path*", "destination": "https://facility-booking-backend.onrender.com/api/:path*" },
+
+  // SPA routing (catch-all)
+  { "source": "/(.*)", "destination": "/index.html" }
+]
+
 }
