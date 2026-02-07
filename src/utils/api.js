@@ -15,7 +15,6 @@ export const apiCall = async (endpoint, options = {}) => {
   try {
     const response = await fetch(url, {
       method: options.method || "GET",
-      credentials: "include", // ✅ REQUIRED for CORS with allowCredentials(true)
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
