@@ -1,6 +1,12 @@
+// src/api.js
+
 const API_BASE_URL =
   process.env.REACT_APP_API_URL || "http://localhost:8080";
 
+/**
+ * Generic API caller
+ * endpoint example: "/bookings", "/bookings/user/Asika"
+ */
 export const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}/api${
     endpoint.startsWith("/") ? endpoint : `/${endpoint}`
@@ -8,12 +14,14 @@ export const apiCall = async (endpoint, options = {}) => {
 
   try {
     const response = await fetch(url, {
+      method: options.method || "GET",
+      credentials: "include", // ✅ REQUIRED for CORS with allowCredentials(true)
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         ...(options.headers || {}),
       },
-      ...options,
+      body: options.body ? JSON.stringify(options.body) : undefined,
     });
 
     if (!response.ok) {
