@@ -28,10 +28,15 @@ export const apiCall = async (endpoint, options = {}) => {
       throw new Error(`HTTP ${response.status}: ${message}`);
     }
 
-    if (response.status === 204) return null;
+    // ... inside apiCall function
+if (response.status === 204) return null;
 
+const contentType = response.headers.get("content-type");
+if (contentType && contentType.includes("application/json")) {
     return await response.json();
-  } catch (error) {
+} else {
+    return await response.text(); // This handles the "Booking deleted..." string
+} catch (error) {
     console.error("API call failed:", error);
     throw error;
   }
