@@ -31,12 +31,14 @@ export const apiCall = async (endpoint, options = {}) => {
     // ✅ Handle NO CONTENT responses (e.g. DELETE)
     if (response.status === 204) return null;
 
-    // ✅ Handle JSON or plain-text responses safely
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      return await response.json();
-    } else {
-      return await response.text(); // e.g. "Booking deleted successfully"
+    // 🔁 UPDATED PART ONLY (safe JSON / text handling)
+    const text = await response.text();
+    if (!text) return null;
+
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      return text; // e.g. "Booking deleted successfully"
     }
   } catch (error) {
     console.error("API call failed:", error);
