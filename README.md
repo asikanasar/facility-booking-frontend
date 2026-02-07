@@ -28,6 +28,10 @@ using REST APIs.
 ## Screenshots
 ![Api text]_(https://github.com/asikanasar/facility-booking-frontend/blob/main/Screenshot%20(553).png)
 
+## Presentation
+
+[Download Project PPT]_(https://github.com/asikanasar/facility-booking-frontend/blob/main/facility_booking.pptx)
+
 ## Deployment
 Frontend is deployed on Vercel.
 
