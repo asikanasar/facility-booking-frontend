@@ -6,14 +6,16 @@ function AdminBookings() {
 
   // Fetch all bookings
   const fetchBookings = async () => {
-    try {
-      const data = await apiCall("/bookings");
-      setBookings(data);
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
-      alert(`Error fetching bookings: ${error.message}`);
-    }
-  };
+  try {
+    const data = await apiCall("/bookings");
+    setBookings(data || []); // <-- default to empty array if data is null
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    alert(`Error fetching bookings: ${error.message || "Unknown error"}`);
+    setBookings([]); // <-- ensure bookings is always an array
+  }
+};
+
 
   useEffect(() => {
     fetchBookings();
