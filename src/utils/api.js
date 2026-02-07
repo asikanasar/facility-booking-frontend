@@ -21,7 +21,7 @@ export const apiCall = async (endpoint, options = {}) => {
         Accept: "application/json",
         ...(options.headers || {}),
       },
-      body: options.body ? JSON.stringify(options.body) : undefined,
+      body: options.body || undefined,
     });
 
     if (!response.ok) {
