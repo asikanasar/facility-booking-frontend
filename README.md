@@ -25,6 +25,9 @@ using REST APIs.
 - Vercel deployment
 - Vercel deployment with domain name
 
+## Screenshots
+![Api text]_(https://github.com/asikanasar/facility-booking-frontend/blob/main/Screenshot%20(553).png)
+
 ## Deployment
 Frontend is deployed on Vercel.
 
