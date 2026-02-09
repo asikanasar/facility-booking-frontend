@@ -1,4 +1,3 @@
-[Sonarqube.docx](https://github.com/user-attachments/files/25151572/Sonarqube.docx)
 # Facility Booking and Management System – Frontend
 
 ## Project Summary
@@ -30,7 +29,8 @@ using REST APIs.
 
 ## Presentation
 
-[Download Project PPT]_(https://github.com/asikanasar/facility-booking-frontend/blob/main/facility_booking.pptx)
+[Facility-Booking-Management-System.pptx](https://github.com/user-attachments/files/25184306/Facility-Booking-Management-System.pptx)
+
 
 ## Deployment
 Frontend is deployed on Vercel.
