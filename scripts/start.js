@@ -16,7 +16,7 @@ function run() {
     process.exit(1);
   }
 
-  const args = ['-s', 'build', '-l', `tcp://0.0.0.0:${port}`];
+  const args = ['-s', 'build', '-l', port];
   const child = spawn(process.execPath, [serveMain, ...args], { stdio: 'inherit' });
 
   child.on('exit', (code) => {
