@@ -54,13 +54,10 @@ This project is a React (CRA) SPA served in production using `serve`.
 - Set `SCM_DO_BUILD_DURING_DEPLOYMENT=true` so App Service runs install + build.
 
 ### Startup
-- Default start command: `npm start` (runs `serve -s build -l $PORT`).
+- Use the default start command: `npm start` (runs `serve -s build -l $PORT`).
+- Ensure the App Service **Startup Command** setting is empty (or explicitly `npm start`).
 
-If App Service shows `sh: 1: serve: not found`, it means `node_modules` wasn't installed on the server.
-In that case, set the App Service **Startup Command** to:
-- `bash startup.sh`
-
-This script will install dependencies (if missing), build the app (if missing), then start the server.
+If you previously set the Startup Command to `bash startup.sh`, clear it — this repo does not use `startup.sh`.
 
 ### Notes
 - CRA environment variables (`REACT_APP_*`) are injected at build time, so the app must be built after setting `REACT_APP_API_URL`.
