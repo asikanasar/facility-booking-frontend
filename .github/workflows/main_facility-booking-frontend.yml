@@ -34,7 +34,8 @@ jobs:
           rm -rf deploy
           mkdir -p deploy
           cp package.json package-lock.json deploy/
-          cp -R build deploy/build
+          cp -R public deploy/public
+          cp -R src deploy/src
           cp -R scripts deploy/scripts
 
       - name: Upload artifact for deployment job
