@@ -46,22 +46,19 @@ Frontend is deployed on Vercel.
 
 ## Azure App Service (Node.js) Deployment
 
-This project is a React (CRA) SPA served in production using `serve`.
+This project is a React (CRA) SPA served in production as static files.
 
 ### App settings
 - Set `REACT_APP_API_URL` to your backend base URL, for example:
 	`https://facility-booking-backend-b4fweaehged4fxda.southeastasia-01.azurewebsites.net`
-- Set `SCM_DO_BUILD_DURING_DEPLOYMENT=true` so App Service runs install + build.
+
+This repo is set up to build in CI and deploy the `build/` output.
 
 ### Startup
-- Use the default start command: `npm start` (runs `serve -s build -l $PORT`).
+- Use the default start command: `npm start`.
 - Ensure the App Service **Startup Command** setting is empty (or explicitly `npm start`).
 
-If you previously set the Startup Command to `bash startup.sh`, clear it — this repo does not use `startup.sh`.
-
-This repo uses npm lifecycle scripts to ensure the app can start on App Service:
-- `prestart` installs dependencies and builds the app if needed.
-- `start` launches `serve` and binds to `0.0.0.0:$PORT`.
+`npm start` runs a small built-in static server that serves the `build/` directory and binds to `$PORT`.
 
 ### Notes
 - CRA environment variables (`REACT_APP_*`) are injected at build time, so the app must be built after setting `REACT_APP_API_URL`.
