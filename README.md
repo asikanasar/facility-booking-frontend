@@ -59,6 +59,10 @@ This project is a React (CRA) SPA served in production using `serve`.
 
 If you previously set the Startup Command to `bash startup.sh`, clear it — this repo does not use `startup.sh`.
 
+This repo uses npm lifecycle scripts to ensure the app can start on App Service:
+- `prestart` installs dependencies and builds the app if needed.
+- `start` launches `serve` and binds to `0.0.0.0:$PORT`.
+
 ### Notes
 - CRA environment variables (`REACT_APP_*`) are injected at build time, so the app must be built after setting `REACT_APP_API_URL`.
 
