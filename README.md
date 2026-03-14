@@ -54,8 +54,7 @@ This project is a React (CRA) SPA served in production using `serve`.
 - Set `SCM_DO_BUILD_DURING_DEPLOYMENT=true` so App Service runs install + build.
 
 ### Startup
-- Default start command: `npm start` (runs `serve -s build`).
-- If the site doesn't come up due to port mismatch, set App Setting `PORT=3000`.
+- Default start command: `npm start` (runs `serve -s build -l $PORT`).
 
 ### Notes
 - CRA environment variables (`REACT_APP_*`) are injected at build time, so the app must be built after setting `REACT_APP_API_URL`.
