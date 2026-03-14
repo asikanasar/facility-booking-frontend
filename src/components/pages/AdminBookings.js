@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { apiCall } from "../../utils/api";
+import api from "../../api";
 
 function AdminBookings() {
   const [bookings, setBookings] = useState([]);
@@ -12,7 +12,8 @@ function AdminBookings() {
     setError(""); // reset error
 
     try {
-      const data = await apiCall("/bookings");
+      const response = await api.get("/bookings");
+      const data = response.data;
       setBookings(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching bookings:", err);
@@ -30,7 +31,7 @@ function AdminBookings() {
   // Approve booking
   const approveBooking = async (id) => {
     try {
-      await apiCall(`/bookings/${id}/approve`, { method: "PUT" });
+      await api.put(`/bookings/${id}/approve`);
       fetchBookings();
     } catch (err) {
       console.error("Error approving booking:", err);
@@ -41,7 +42,7 @@ function AdminBookings() {
   // Cancel booking
   const cancelBooking = async (id) => {
     try {
-      await apiCall(`/bookings/${id}/cancel`, { method: "PUT" });
+      await api.put(`/bookings/${id}/cancel`);
       fetchBookings();
     } catch (err) {
       console.error("Error cancelling booking:", err);

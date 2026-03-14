@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiCall } from "../../utils/api";
+import api from "../../api";
 
 function StudentBooking() {
   const navigate = useNavigate();
@@ -21,12 +21,9 @@ function StudentBooking() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await apiCall("/bookings", {
-        method: "POST",
-        body: JSON.stringify({
-          ...booking,
-          userRole: "STUDENT"
-        })
+      await api.post("/bookings", {
+        ...booking,
+        userRole: "STUDENT",
       });
       alert("Booking created successfully!");
       navigate("/student/bookings");

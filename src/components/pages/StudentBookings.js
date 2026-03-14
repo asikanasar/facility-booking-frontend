@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiCall } from "../../utils/api";
+import api from "../../api";
 
 function StudentBookings() {
   const [userName, setUserName] = useState("");
@@ -11,8 +11,10 @@ function StudentBookings() {
       return;
     }
     try {
-      const data = await apiCall(`/bookings/user/${userName}`);
-      setBookings(data);
+      const response = await api.get(
+        `/bookings/user/${encodeURIComponent(userName)}`
+      );
+      setBookings(response.data);
     } catch (error) {
       alert(error.message);
     }
@@ -20,7 +22,7 @@ function StudentBookings() {
 
   const deleteBooking = async (id) => {
     try {
-      await apiCall(`/bookings/${id}`, { method: "DELETE" });
+      await api.delete(`/bookings/${id}`);
       setBookings(bookings.filter(b => b.id !== id));
     } catch (error) {
       alert(error.message);

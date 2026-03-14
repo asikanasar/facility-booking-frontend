@@ -1,8 +1,0 @@
-/manifest.json
-  cache-control: public, max-age=0, must-revalidate
-
-/favicon.ico
-  cache-control: public, max-age=0, must-revalidate
-
-/icons/*
-  cache-control: public, max-age=0, must-revalidate
