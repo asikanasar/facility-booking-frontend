@@ -1,7 +1,8 @@
 // src/api.js
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8080";
+  process.env.REACT_APP_API_URL ||
+  "https://facility-booking-backend-b4fweaehged4fxda.southeastasia-01.azurewebsites.net";
 
 /**
  * Generic API caller
