@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api, { getApiErrorMessage } from "../../api";
+import api from "../../api";
 
 function StudentBookings() {
   const [userName, setUserName] = useState("");
@@ -16,8 +16,7 @@ function StudentBookings() {
       );
       setBookings(response.data);
     } catch (error) {
-      console.error("Fetch bookings failed:", error);
-      alert(getApiErrorMessage(error));
+      alert(error.message);
     }
   };
 
@@ -26,8 +25,7 @@ function StudentBookings() {
       await api.delete(`/bookings/${id}`);
       setBookings(bookings.filter(b => b.id !== id));
     } catch (error) {
-      console.error("Delete booking failed:", error);
-      alert(getApiErrorMessage(error));
+      alert(error.message);
     }
   };
 

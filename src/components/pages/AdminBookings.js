@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import api, { getApiErrorMessage } from "../../api";
+import api from "../../api";
 
 function AdminBookings() {
   const [bookings, setBookings] = useState([]);
@@ -17,7 +17,7 @@ function AdminBookings() {
       setBookings(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching bookings:", err);
-      setError(getApiErrorMessage(err));
+      setError(err.message || "Unknown error while fetching bookings");
       setBookings([]); // ensure array
     } finally {
       setLoading(false);
@@ -35,7 +35,7 @@ function AdminBookings() {
       fetchBookings();
     } catch (err) {
       console.error("Error approving booking:", err);
-      setError(getApiErrorMessage(err));
+      setError(err.message || "Unknown error while approving booking");
     }
   };
 
@@ -46,7 +46,7 @@ function AdminBookings() {
       fetchBookings();
     } catch (err) {
       console.error("Error cancelling booking:", err);
-      setError(getApiErrorMessage(err));
+      setError(err.message || "Unknown error while cancelling booking");
     }
   };
 
