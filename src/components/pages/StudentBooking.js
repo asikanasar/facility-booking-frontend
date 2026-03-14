@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";
+import api, { getApiErrorMessage } from "../../api";
 
 function StudentBooking() {
   const navigate = useNavigate();
@@ -28,7 +28,8 @@ function StudentBooking() {
       alert("Booking created successfully!");
       navigate("/student/bookings");
     } catch (error) {
-      alert(error.message);
+      console.error("Create booking failed:", error);
+      alert(getApiErrorMessage(error));
     }
   };
 
